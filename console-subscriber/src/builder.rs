@@ -300,13 +300,13 @@ impl Builder {
         fn console_filter(meta: &tracing::Metadata<'_>) -> bool {
             // events will have *targets* beginning with "runtime"
             if meta.is_event() {
-                return meta.target().starts_with("runtime") || meta.target().starts_with("tokio");
+                return meta.target().starts_with("runtime") || meta.target().starts_with("torrentor");
             }
 
             // spans will have *names* beginning with "runtime". for backwards
             // compatibility with older Tokio versions, enable anything with the `tokio`
             // target as well.
-            meta.name().starts_with("runtime.") || meta.target().starts_with("tokio")
+            meta.name().starts_with("runtime.") || meta.target().starts_with("torrentor")
         }
 
         let (layer, server) = self.build();
