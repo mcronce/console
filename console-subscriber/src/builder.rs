@@ -230,10 +230,14 @@ impl Builder {
             .unwrap_or_else(|| Targets::default().with_default(LevelFilter::ERROR));
 
         let console_layer = self.spawn();
+        let logging_layer = tracing_subscriber::fmt::layer()
+            .pretty()
+            .with_span_events(tracing_subscriber::fmt::format::FmtSpan::NEW | tracing_subscriber::fmt::format::FmtSpan::CLOSE)
+            .with_filter(fmt_filter);
 
         tracing_subscriber::registry()
             .with(console_layer)
-            .with(tracing_subscriber::fmt::layer().with_filter(fmt_filter))
+            .with(logging_layer)
             .init();
     }
 
